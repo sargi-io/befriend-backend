@@ -54,10 +54,6 @@ public class AuthController {
     userRepository.save(user);
 
     Map<String, String> response = new HashMap<>();
-    response.put("name", user.getName());
-    response.put("email", user.getEmail());
-    response.put("encodedPass", user.getPassword());
-    
     return ResponseEntity.ok(response);
         
     }
@@ -67,9 +63,9 @@ public class AuthController {
 
     @PostMapping("/login")
     public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
-        System.out.println(passwordEncoder.matches(loginRequest.getPassword(), userDetailsService.loadUserByUsername(loginRequest.getUsername()).toString()));
+        System.out.println(passwordEncoder.matches(loginRequest.getPassword(), userDetailsService.loadUserByUsername(loginRequest.getName()).toString()));
         Authentication authentication = authenticationManager.authenticate(
-            new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword()));
+            new UsernamePasswordAuthenticationToken(loginRequest.getName(), loginRequest.getPassword()));
 
         SecurityContextHolder.getContext().setAuthentication(authentication);
         String jwt = JwtUtils.generateJwtToken(authentication); 

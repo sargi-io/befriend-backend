@@ -11,7 +11,7 @@ public class LoginRequest {
     @Getter @Setter private String email;
 
     @NotBlank
-    @Getter @Setter private String username;
+    @Getter @Setter private String name;
 
     @NotBlank
     @Getter @Setter private String password;
